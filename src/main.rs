@@ -9,11 +9,13 @@ use std::io::Write;
 use std::net::TcpListener;
 
 fn main() {
-    let listener = TcpListener::bind("192.168.36.144:8080").unwrap();
+    let listener = TcpListener::bind("0.0.0.0:8080").unwrap();
     println!("Server listening on port 8080");
 
     let mut cam =
         videoio::VideoCapture::new(0, videoio::CAP_ANY).expect("Failed to get video capture");
+    cam.set(videoio::CAP_PROP_FRAME_WIDTH, 1248.0).unwrap();
+    cam.set(videoio::CAP_PROP_FRAME_HEIGHT, 736.0).unwrap();
     let mut frame = Mat::default();
     let mut buf = Vector::new();
 
