@@ -8,6 +8,8 @@ use opencv::{
 use std::io::Write;
 use std::net::TcpListener;
 
+use zenoh::{session::SessionDeclarations, Config, Wait};
+
 fn main() {
     let listener = TcpListener::bind("0.0.0.0:8080").unwrap();
     println!("Server listening on port 8080");
@@ -18,6 +20,10 @@ fn main() {
     cam.set(videoio::CAP_PROP_FRAME_HEIGHT, 736.0).unwrap();
     let mut frame = Mat::default();
     let mut buf = Vector::new();
+
+    let session = zenoh::open(Config::default()).wait().unwrap();
+
+    let publisher = session.declare_publisher("video").wait().unwrap();
 
     loop {
         let (mut stream, _) = listener.accept().expect("Failed to accept connection");
@@ -35,6 +41,12 @@ fn main() {
         loop {
             cam.read(&mut frame).expect("Failed to capture frame");
             buf.clear();
+            
+            let size = frame.mat_size();
+            let size = size.iter().map(|&dim| dim as usize);
+            let channels = frame.channels() as usize;
+            dbg!(size.chain([channels]).collect::<Vec<_>>());
+
             let _ = imgcodecs::imencode(".jpg", &frame, &mut buf, &Vector::new());
 
             let image_data = format!(
@@ -46,6 +58,8 @@ fn main() {
             stream.write_all(buf.as_slice()).unwrap();
             stream.write_all(b"\r\n").unwrap();
             stream.flush().unwrap();
+
+            publisher.put(frame.data_bytes().unwrap()).wait().unwrap();
         }
     }
 }

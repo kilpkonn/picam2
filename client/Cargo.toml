@@ -1,0 +1,10 @@
+[package]
+name = "picam2_client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+opencv = { version = "0.92.0", default-features = false, features = ["imgcodecs", "videoio"] }
+zenoh = "1.0.0-alpha.6"
+rust-faces = { version = "1.0.0", features = ["viz"] }
+ndarray = "0.15"

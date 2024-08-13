@@ -1,0 +1,8 @@
+[package]
+name = "picam2_server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+opencv = { version = "0.92.0", default-features = false, features = ["imgcodecs", "videoio"] }
+zenoh = "1.0.0-alpha.6"
