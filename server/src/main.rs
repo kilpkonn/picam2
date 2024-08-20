@@ -42,11 +42,6 @@ fn main() {
             cam.read(&mut frame).expect("Failed to capture frame");
             buf.clear();
             
-            let size = frame.mat_size();
-            let size = size.iter().map(|&dim| dim as usize);
-            let channels = frame.channels() as usize;
-            dbg!(size.chain([channels]).collect::<Vec<_>>());
-
             let _ = imgcodecs::imencode(".jpg", &frame, &mut buf, &Vector::new());
 
             let image_data = format!(
