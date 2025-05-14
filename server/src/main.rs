@@ -8,7 +8,7 @@ use opencv::{
 use std::io::Write;
 use std::net::TcpListener;
 
-use zenoh::{session::SessionDeclarations, Config, Wait};
+use zenoh::{Config, Wait};
 
 fn main() {
     let listener = TcpListener::bind("0.0.0.0:8080").unwrap();
