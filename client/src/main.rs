@@ -22,6 +22,11 @@ fn main() {
 
     let model = Session::builder()
         .unwrap()
+        // .with_execution_providers([
+        //     // TensorRTExecutionProvider::default().build().error_on_failure(),
+        //     CUDAExecutionProvider::default().build().error_on_failure(),
+        // ])
+        // .unwrap()
         .commit_from_url(
             "https://github.com/rustybuilder/model-zoo/raw/main/face-detection/blazeface-320.onnx",
         )
@@ -49,8 +54,6 @@ fn main() {
             draw_faces(&mut image, faces);
 
             let encoded = turbojpeg::compress_image(&image, 95, turbojpeg::Subsamp::None).unwrap();
-
-            dbg!(&encoded);
 
             let image_data = format!(
                 "--frame\r\nContent-Type: image/jpeg\r\nContent-Length: {}\r\n\r\n",

@@ -12,4 +12,4 @@ imageproc = "0.25.0"
 image = "0.25.6"
 turbojpeg = {version = "1.0", features = ["image"]}
 tracing-subscriber = { version = "0.3", features = [ "env-filter", "fmt" ] }
-ort = { version = "=2.0.0-rc.9", features = ["cuda", "fetch-models", "ndarray"] }
+ort = { version = "=2.0.0-rc.9", features = ["cuda", "tensorrt", "fetch-models", "ndarray"] }
