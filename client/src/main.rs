@@ -15,18 +15,13 @@ fn main() {
     tracing_subscriber::fmt::init();
     let session = zenoh::open(Config::default()).wait().unwrap();
 
-    ort::init()
-        .with_execution_providers([CUDAExecutionProvider::default().build().error_on_failure()])
-        .commit()
-        .unwrap();
-
     let model = Session::builder()
         .unwrap()
-        // .with_execution_providers([
-        //     // TensorRTExecutionProvider::default().build().error_on_failure(),
-        //     CUDAExecutionProvider::default().build().error_on_failure(),
-        // ])
-        // .unwrap()
+        .with_execution_providers([
+            // TensorRTExecutionProvider::default().build().error_on_failure(),
+            CUDAExecutionProvider::default().build().error_on_failure(),
+        ])
+        .unwrap()
         .commit_from_url(
             "https://github.com/rustybuilder/model-zoo/raw/main/face-detection/blazeface-320.onnx",
         )
