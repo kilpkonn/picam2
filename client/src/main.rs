@@ -75,21 +75,6 @@ fn to_rbg8(arr: &Array3<u8>) -> ImageBuffer<image::Rgb<u8>, Vec<u8>> {
     image
 }
 
-// #[derive(Debug, Clone, Copy)]
-// pub struct Rect {
-//     pub x: f32,
-//     pub y: f32,
-//     pub width: f32,
-//     pub height: f32,
-// }
-
-// #[derive(Debug, Clone)]
-// pub struct Face {
-//     pub rect: Rect,
-//     pub confidence: f32,
-//     pub landmarks: Option<Vec<(f32, f32)>>,
-// }
-
 fn detect(session: &Session, image: ArrayViewD<u8>) -> Vec<Face> {
     let shape = image.shape().to_vec();
     let (width, height, _) = (shape[1], shape[0], shape[2]);
@@ -196,13 +181,13 @@ where
 {
     for face in faces {
         imageproc::drawing::draw_hollow_rect_mut(image, convert_rect(face.rect), Rgb([0, 255, 0]));
-        for lm in face.landmarks.unwrap_or_default() {
-            imageproc::drawing::draw_filled_circle_mut(
-                image,
-                (lm.0 as i32, lm.1 as i32),
-                2,
-                Rgb([255, 0, 0]),
-            );
-        }
+        // for lm in face.landmarks.unwrap_or_default() {
+        //     imageproc::drawing::draw_filled_circle_mut(
+        //         image,
+        //         (lm.0 as i32, lm.1 as i32),
+        //         2,
+        //         Rgb([255, 0, 0]),
+        //     );
+        // }
     }
 }
